@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threeRduReform.base.mapper.BaseCollegeMajorMapper">
+
+    <resultMap type="map" id="CollegeMap">
+        <result property="collegeId" column="college_id"/>
+        <result property="collegeName" column="college_name"/>
+    </resultMap>
+
+    <resultMap type="map" id="MajorMap">
+        <result property="majorId" column="major_id"/>
+        <result property="majorName" column="major_name"/>
+    </resultMap>
+
+    <!-- 查询专业关联的院校列表 -->
+    <select id="selectCollegeListByMajorId" resultMap="CollegeMap">
+        SELECT cm.college_id, bc.college_name
+        FROM base_college_major cm
+        LEFT JOIN base_college bc ON cm.college_id = bc.college_id
+        WHERE cm.major_id = #{majorId}
+        AND bc.del_flag = '0'
+    </select>
+
+    <!-- 查询院校关联的专业列表 -->
+    <select id="selectMajorListByCollegeId" resultMap="MajorMap">
+        SELECT cm.major_id, bm.major_name
+        FROM base_college_major cm
+        LEFT JOIN base_major bm ON cm.major_id = bm.major_id
+        WHERE cm.college_id = #{collegeId}
+        AND bm.del_flag = '0'
+    </select>
+
+    <!-- 添加院校与专业关联 -->
+    <insert id="insertCollegeMajor" parameterType="com.threeRduReform.base.domain.BaseCollegeMajor">
+        INSERT INTO base_college_major(college_id, major_id)
+        VALUES (#{collegeId}, #{majorId})
+    </insert>
+
+    <!-- 删除院校与专业关联 -->
+    <delete id="deleteCollegeMajorByMajorId">
+        DELETE FROM base_college_major WHERE major_id = #{majorId}
+    </delete>
+
+    <!-- 批量删除院校与专业关联 -->
+    <delete id="deleteCollegeMajorByMajorIds">
+        DELETE FROM base_college_major WHERE major_id IN
+        <foreach item="majorId" collection="array" open="(" separator="," close=")">
+            #{majorId}
+        </foreach>
+    </delete>
+
+    <!-- 根据院校ID删除关联 -->
+    <delete id="deleteCollegeMajorByCollegeId">
+        DELETE FROM base_college_major WHERE college_id = #{collegeId}
+    </delete>
+
+</mapper>

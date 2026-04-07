@@ -1,0 +1,23 @@
+{
+  "id": "5001652",
+  "name": "上海市虹口区技能人才培养平台",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "35916994",
+      "name": "el-icon-caret-bottom",
+      "font_class": "el-icon-caret-bottom",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "35917008",
+      "name": "el-icon-caret-top",
+      "font_class": "el-icon-caret-top",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    }
+  ]
+}

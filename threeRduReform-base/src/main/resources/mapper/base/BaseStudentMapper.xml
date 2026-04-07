@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threeRduReform.base.mapper.BaseStudentMapper">
+    
+    <resultMap type="com.threeRduReform.base.domain.BaseStudent" id="BaseStudentResult">
+        <result property="studentId"    column="student_id"    />
+        <result property="studentCode"    column="student_code"    />
+        <result property="studentName"    column="student_name"    />
+        <result property="sex"    column="sex"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="nation"    column="nation"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="phone"    column="phone"    />
+        <result property="collegeId"    column="college_id"    />
+        <result property="collegeName"    column="college_name"    />
+        <result property="majorId"    column="major_id"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="grade"    column="grade"    />
+        <result property="className"    column="class_name"    />
+        <result property="entranceDate"    column="entrance_date"    />
+        <result property="graduationDate"    column="graduation_date"    />
+        <result property="graduationDest"    column="graduation_dest"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBaseStudentVo">
+        select s.student_id, s.student_code, s.student_name, s.sex, s.birthday, s.nation, s.id_card, s.phone, s.college_id, c.college_name, s.major_id, m.major_name, s.grade, s.class_name, s.entrance_date, s.graduation_date, s.graduation_dest, s.status, s.del_flag, s.create_by, s.create_time, s.update_by, s.update_time, s.remark
+        from base_student s
+        left join base_college c on s.college_id = c.college_id
+        left join base_major m on s.major_id = m.major_id
+    </sql>
+
+    <select id="selectBaseStudentList" parameterType="com.threeRduReform.base.domain.BaseStudent" resultMap="BaseStudentResult">
+        <include refid="selectBaseStudentVo"/>
+        <where>  
+            <if test="studentCode != null and studentCode != ''"> and s.student_code = #{studentCode}</if>
+            <if test="studentName != null and studentName != ''"> and s.student_name like concat('%', #{studentName}, '%')</if>
+            <if test="sex != null and sex != ''"> and s.sex = #{sex}</if>
+            <if test="collegeId != null"> and s.college_id = #{collegeId}</if>
+            <if test="majorId != null"> and s.major_id = #{majorId}</if>
+            <if test="grade != null and grade != ''"> and s.grade = #{grade}</if>
+            <if test="status != null and status != ''"> and s.status = #{status}</if>
+        </where>
+        order by s.student_id desc
+    </select>
+
+    <select id="selectBaseStudentByStudentId" parameterType="Long" resultMap="BaseStudentResult">
+        <include refid="selectBaseStudentVo"/>
+        where s.student_id = #{studentId}
+    </select>
+
+    <insert id="insertBaseStudent" parameterType="com.threeRduReform.base.domain.BaseStudent">
+        insert into base_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="studentCode != null">student_code,</if>
+            <if test="studentName != null">student_name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="nation != null">nation,</if>
+            <if test="idCard != null">id_card,</if>
+            <if test="phone != null">phone,</if>
+            <if test="collegeId != null">college_id,</if>
+            <if test="majorId != null">major_id,</if>
+            <if test="grade != null">grade,</if>
+            <if test="className != null">class_name,</if>
+            <if test="entranceDate != null">entrance_date,</if>
+            <if test="graduationDate != null">graduation_date,</if>
+            <if test="graduationDest != null">graduation_dest,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="studentCode != null">#{studentCode},</if>
+            <if test="studentName != null">#{studentName},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="nation != null">#{nation},</if>
+            <if test="idCard != null">#{idCard},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="collegeId != null">#{collegeId},</if>
+            <if test="majorId != null">#{majorId},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="className != null">#{className},</if>
+            <if test="entranceDate != null">#{entranceDate},</if>
+            <if test="graduationDate != null">#{graduationDate},</if>
+            <if test="graduationDest != null">#{graduationDest},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseStudent" parameterType="com.threeRduReform.base.domain.BaseStudent">
+        update base_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentCode != null">student_code = #{studentCode},</if>
+            <if test="studentName != null">student_name = #{studentName},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="nation != null">nation = #{nation},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="collegeId != null">college_id = #{collegeId},</if>
+            <if test="majorId != null">major_id = #{majorId},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="className != null">class_name = #{className},</if>
+            <if test="entranceDate != null">entrance_date = #{entranceDate},</if>
+            <if test="graduationDate != null">graduation_date = #{graduationDate},</if>
+            <if test="graduationDest != null">graduation_dest = #{graduationDest},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where student_id = #{studentId}
+    </update>
+
+    <delete id="deleteBaseStudentByStudentId" parameterType="Long">
+        delete from base_student where student_id = #{studentId}
+    </delete>
+
+    <delete id="deleteBaseStudentByStudentIds" parameterType="String">
+        delete from base_student where student_id in 
+        <foreach item="studentId" collection="array" open="(" separator="," close=")">
+            #{studentId}
+        </foreach>
+    </delete>
+</mapper>

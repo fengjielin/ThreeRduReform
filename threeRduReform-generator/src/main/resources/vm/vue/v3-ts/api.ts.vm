@@ -1,0 +1,59 @@
+import request from '@/utils/request'
+import type { AjaxResult, TableDataInfo } from '@/types'
+import type { ${BusinessName}, ${BusinessName}QueryParams#if($table.sub), ${subClassName}#end } from '@/types/api/${moduleName}/${businessName}'
+
+#if($table.sub)
+#foreach($column in $subTable.columns)
+#if($column.list && ($column.htmlType == "select" || $column.htmlType == "radio") && $column.dictType)
+import type { ${column.dictType} } from '@/types/api/dict'
+#end
+#end
+#end
+
+// 查询${functionName}列表
+export function list${BusinessName}(query: ${BusinessName}QueryParams): Promise<TableDataInfo<${BusinessName}[]>> {
+  return request({
+    url: '/${moduleName}/${businessName}/list',
+    method: 'get',
+    params: query
+  })
+}
+
+// 查询${functionName}详细
+#if($pkColumn.javaType == 'Integer' || $pkColumn.javaType == 'Long' || $pkColumn.javaType == 'Double' || $pkColumn.javaType == 'Float' || $pkColumn.javaType == 'BigDecimal' || $pkColumn.javaType == 'Short' || $pkColumn.javaType == 'Byte')
+#set($javaType = 'number')
+#else
+#set($javaType = $pkColumn.javaType)
+#end
+export function get${BusinessName}(${pkColumn.javaField}: ${javaType}): Promise<AjaxResult<${BusinessName}>> {
+  return request({
+    url: '/${moduleName}/${businessName}/' + ${pkColumn.javaField},
+    method: 'get'
+  })
+}
+
+// 新增${functionName}
+export function add${BusinessName}(data: ${BusinessName}): Promise<AjaxResult> {
+  return request({
+    url: '/${moduleName}/${businessName}',
+    method: 'post',
+    data: data
+  })
+}
+
+// 修改${functionName}
+export function update${BusinessName}(data: ${BusinessName}): Promise<AjaxResult> {
+  return request({
+    url: '/${moduleName}/${businessName}',
+    method: 'put',
+    data: data
+  })
+}
+
+// 删除${functionName}
+export function del${BusinessName}(${pkColumn.javaField}: ${javaType} | ${javaType}[]): Promise<AjaxResult> {
+  return request({
+    url: '/${moduleName}/${businessName}/' + ${pkColumn.javaField},
+    method: 'delete'
+  })
+}

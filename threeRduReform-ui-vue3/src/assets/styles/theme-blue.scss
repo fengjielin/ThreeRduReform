@@ -1,0 +1,100 @@
+#app #theme-blue {
+  // 重写 菜单右侧的 箭头
+  .el-sub-menu__icon-arrow {
+    display: none;
+  }
+  .el-sub-menu__title::after {
+    /* iconfont 字体 */
+    font-family: 'iconfont' !important;
+    /* 向下箭头 */
+    content: '\e668';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    transition: transform 0.3s;
+  }
+  .el-sub-menu.is-opened > .el-sub-menu__title::after {
+    /* 向上箭头 */
+    content: '\e669';
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  .nav3 {
+    .el-sub-menu__title::after {
+      /* iconfont 字体 */
+      font-family: 'iconfont' !important;
+      position: initial;
+      /* 向下箭头 */
+      content: '\e668';
+      font-size: 14px;
+      transition: transform 0.3s;
+      margin-left: 8px;
+    }
+    .el-sub-menu.is-opened > .el-sub-menu__title::after {
+      /* 向上箭头 */
+      content: '\e669';
+      transform: translateY(-50%) rotate(0deg);
+    }
+  }
+
+  .sidebar-container {
+    .el-menu {
+      .el-sub-menu.is-active > .el-sub-menu__title {
+        color: #ffffff;
+      }
+      &.el-menu--collapse {
+        .el-sub-menu.is-active > .el-sub-menu__title {
+          color: #ffffff;
+
+          &::before {
+            background-color: color-mix(in srgb, #ffffff, transparent 90%);
+          }
+        }
+      }
+
+      .el-menu-item,
+      .el-sub-menu__title {
+        &:hover {
+          &:not(.is-active)::before {
+            background-color: color-mix(in srgb, #ffffff, transparent 90%);
+            border-radius: 6px;
+          }
+        }
+      }
+      .el-menu-item {
+        &.is-active::before {
+          background-color: #ffffff;
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+
+  .sidebar-popper {
+    .el-sub-menu.is-active > .el-sub-menu__title {
+      color: #ffffff;
+    }
+    .el-menu-item,
+    .el-sub-menu__title {
+      &:hover {
+        background-color: transparent;
+
+        &:not(.is-active)::before {
+          background-color: color-mix(in srgb, #ffffff, transparent 90%);
+        }
+      }
+    }
+    .el-menu-item {
+      &.is-active {
+        background-color: transparent;
+      }
+
+      &.is-active::before {
+        background-color: #ffffff;
+        opacity: 0.9;
+      }
+    }
+  }
+}

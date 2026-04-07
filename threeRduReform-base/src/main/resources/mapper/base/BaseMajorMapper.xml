@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threeRduReform.base.mapper.BaseMajorMapper">
+    
+    <resultMap type="com.threeRduReform.base.domain.BaseMajor" id="BaseMajorResult">
+        <result property="majorId"    column="major_id"    />
+        <result property="majorCode"    column="major_code"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="majorShortName"    column="major_short_name"    />
+        <result property="majorCategory"    column="major_category"    />
+        <result property="duration"    column="duration"    />
+        <result property="eduLevel"    column="edu_level"    />
+        <result property="intro"    column="intro"    />
+        <result property="collegeId"    column="college_id"    />
+        <result property="collegeName"    column="college_name"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBaseMajorVo">
+        select m.major_id, m.major_code, m.major_name, m.major_short_name, m.major_category, m.duration, m.edu_level, m.intro, m.status, m.del_flag, m.create_by, m.create_time, m.update_by, m.update_time, m.remark
+        from base_major m
+    </sql>
+
+    <sql id="selectBaseMajorSimpleVo">
+        select major_id, major_code, major_name, major_short_name, major_category, duration, edu_level, intro, status, del_flag, create_by, create_time, update_by, update_time, remark
+        from base_major
+    </sql>
+
+    <sql id="selectBaseMajorWithCollegeVo">
+        select m.major_id, m.major_code, m.major_name, m.major_short_name, m.major_category, m.duration, m.edu_level, m.intro, m.status, m.del_flag, m.create_by, m.create_time, m.update_by, m.update_time, m.remark,
+               cm.college_id, c.college_name
+        from base_major m
+        left join (
+            select major_id, min(college_id) as college_id
+            from base_college_major
+            group by major_id
+        ) cm on m.major_id = cm.major_id
+        left join base_college c on cm.college_id = c.college_id
+    </sql>
+
+    <select id="selectBaseMajorList" parameterType="com.threeRduReform.base.domain.BaseMajor" resultMap="BaseMajorResult">
+        <include refid="selectBaseMajorWithCollegeVo"/>
+        <where>  
+            <if test="majorCode != null and majorCode != ''"> and m.major_code = #{majorCode}</if>
+            <if test="majorName != null and majorName != ''"> and m.major_name like concat('%', #{majorName}, '%')</if>
+            <if test="majorCategory != null and majorCategory != ''"> and m.major_category = #{majorCategory}</if>
+            <if test="eduLevel != null and eduLevel != ''"> and m.edu_level = #{eduLevel}</if>
+            <if test="status != null and status != ''"> and m.status = #{status}</if>
+        </where>
+        order by m.major_id desc
+    </select>
+
+    <select id="selectBaseMajorByMajorId" parameterType="Long" resultMap="BaseMajorResult">
+        <include refid="selectBaseMajorWithCollegeVo"/>
+        where m.major_id = #{majorId}
+    </select>
+
+    <insert id="insertBaseMajor" parameterType="com.threeRduReform.base.domain.BaseMajor">
+        insert into base_major
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="majorId != null">major_id,</if>
+            <if test="majorCode != null">major_code,</if>
+            <if test="majorName != null">major_name,</if>
+            <if test="majorShortName != null">major_short_name,</if>
+            <if test="majorCategory != null">major_category,</if>
+            <if test="duration != null">duration,</if>
+            <if test="eduLevel != null">edu_level,</if>
+            <if test="intro != null">intro,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="majorId != null">#{majorId},</if>
+            <if test="majorCode != null">#{majorCode},</if>
+            <if test="majorName != null">#{majorName},</if>
+            <if test="majorShortName != null">#{majorShortName},</if>
+            <if test="majorCategory != null">#{majorCategory},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="eduLevel != null">#{eduLevel},</if>
+            <if test="intro != null">#{intro},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseMajor" parameterType="com.threeRduReform.base.domain.BaseMajor">
+        update base_major
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="majorCode != null">major_code = #{majorCode},</if>
+            <if test="majorName != null">major_name = #{majorName},</if>
+            <if test="majorShortName != null">major_short_name = #{majorShortName},</if>
+            <if test="majorCategory != null">major_category = #{majorCategory},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="eduLevel != null">edu_level = #{eduLevel},</if>
+            <if test="intro != null">intro = #{intro},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where major_id = #{majorId}
+    </update>
+
+    <delete id="deleteBaseMajorByMajorId" parameterType="Long">
+        delete from base_major where major_id = #{majorId}
+    </delete>
+
+    <delete id="deleteBaseMajorByMajorIds" parameterType="String">
+        delete from base_major where major_id in 
+        <foreach item="majorId" collection="array" open="(" separator="," close=")">
+            #{majorId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threeRduReform.base.mapper.BaseTeacherMapper">
+    
+    <resultMap type="com.threeRduReform.base.domain.BaseTeacher" id="BaseTeacherResult">
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="teacherCode"    column="teacher_code"    />
+        <result property="teacherName"    column="teacher_name"    />
+        <result property="teacherType"    column="teacher_type"    />
+        <result property="sex"    column="sex"    />
+        <result property="phone"    column="phone"    />
+        <result property="email"    column="email"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="intro"    column="intro"    />
+        <result property="collegeId"    column="college_id"    />
+        <result property="collegeName"    column="college_name"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBaseTeacherVo">
+        select t.teacher_id, t.teacher_code, t.teacher_name, t.teacher_type, t.sex, t.phone, t.email, t.avatar, t.intro, t.college_id, c.college_name, t.sort, t.status, t.del_flag, t.create_by, t.create_time, t.update_by, t.update_time, t.remark
+        from base_teacher t
+        left join base_college c on t.college_id = c.college_id
+    </sql>
+
+    <select id="selectBaseTeacherList" parameterType="com.threeRduReform.base.domain.BaseTeacher" resultMap="BaseTeacherResult">
+        <include refid="selectBaseTeacherVo"/>
+        <where>  
+            <if test="teacherCode != null and teacherCode != ''"> and t.teacher_code = #{teacherCode}</if>
+            <if test="teacherName != null and teacherName != ''"> and t.teacher_name like concat('%', #{teacherName}, '%')</if>
+            <if test="teacherType != null and teacherType != ''"> and t.teacher_type = #{teacherType}</if>
+            <if test="sex != null and sex != ''"> and t.sex = #{sex}</if>
+            <if test="collegeId != null"> and t.college_id = #{collegeId}</if>
+            <if test="status != null and status != ''"> and t.status = #{status}</if>
+        </where>
+        order by t.sort asc
+    </select>
+
+    <select id="selectBaseTeacherByTeacherId" parameterType="Long" resultMap="BaseTeacherResult">
+        <include refid="selectBaseTeacherVo"/>
+        where t.teacher_id = #{teacherId}
+    </select>
+
+    <insert id="insertBaseTeacher" parameterType="com.threeRduReform.base.domain.BaseTeacher">
+        insert into base_teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">teacher_id,</if>
+            <if test="teacherCode != null">teacher_code,</if>
+            <if test="teacherName != null">teacher_name,</if>
+            <if test="teacherType != null">teacher_type,</if>
+            <if test="sex != null">sex,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="intro != null">intro,</if>
+            <if test="collegeId != null">college_id,</if>
+            <if test="sort != null">sort,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="teacherCode != null">#{teacherCode},</if>
+            <if test="teacherName != null">#{teacherName},</if>
+            <if test="teacherType != null">#{teacherType},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="intro != null">#{intro},</if>
+            <if test="collegeId != null">#{collegeId},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseTeacher" parameterType="com.threeRduReform.base.domain.BaseTeacher">
+        update base_teacher
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teacherCode != null">teacher_code = #{teacherCode},</if>
+            <if test="teacherName != null">teacher_name = #{teacherName},</if>
+            <if test="teacherType != null">teacher_type = #{teacherType},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="intro != null">intro = #{intro},</if>
+            <if test="collegeId != null">college_id = #{collegeId},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where teacher_id = #{teacherId}
+    </update>
+
+    <delete id="deleteBaseTeacherByTeacherId" parameterType="Long">
+        delete from base_teacher where teacher_id = #{teacherId}
+    </delete>
+
+    <delete id="deleteBaseTeacherByTeacherIds" parameterType="String">
+        delete from base_teacher where teacher_id in 
+        <foreach item="teacherId" collection="array" open="(" separator="," close=")">
+            #{teacherId}
+        </foreach>
+    </delete>
+</mapper>

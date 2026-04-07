@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threeRduReform.base.mapper.BaseTeacherCollegeMapper">
+
+    <resultMap type="map" id="CollegeMap">
+        <result property="collegeId" column="college_id"/>
+        <result property="collegeName" column="college_name"/>
+    </resultMap>
+
+    <resultMap type="map" id="TeacherMap">
+        <result property="teacherId" column="teacher_id"/>
+        <result property="teacherName" column="teacher_name"/>
+    </resultMap>
+
+    <!-- 查询教师关联的院校列表 -->
+    <select id="selectCollegeListByTeacherId" resultMap="CollegeMap">
+        SELECT tc.college_id, bc.college_name
+        FROM base_teacher_college tc
+        LEFT JOIN base_college bc ON tc.college_id = bc.college_id
+        WHERE tc.teacher_id = #{teacherId}
+        AND bc.del_flag = '0'
+    </select>
+
+    <!-- 查询院校关联的教师列表 -->
+    <select id="selectTeacherListByCollegeId" resultMap="TeacherMap">
+        SELECT tc.teacher_id, bt.teacher_name
+        FROM base_teacher_college tc
+        LEFT JOIN base_teacher bt ON tc.teacher_id = bt.teacher_id
+        WHERE tc.college_id = #{collegeId}
+        AND bt.del_flag = '0'
+    </select>
+
+    <!-- 添加教师与院校关联 -->
+    <insert id="insertTeacherCollege" parameterType="com.threeRduReform.base.domain.BaseTeacherCollege">
+        INSERT INTO base_teacher_college(teacher_id, college_id)
+        VALUES (#{teacherId}, #{collegeId})
+    </insert>
+
+    <!-- 删除教师与院校关联 -->
+    <delete id="deleteTeacherCollegeByTeacherId">
+        DELETE FROM base_teacher_college WHERE teacher_id = #{teacherId}
+    </delete>
+
+    <!-- 批量删除教师与院校关联 -->
+    <delete id="deleteTeacherCollegeByTeacherIds">
+        DELETE FROM base_teacher_college WHERE teacher_id IN
+        <foreach item="teacherId" collection="array" open="(" separator="," close=")">
+            #{teacherId}
+        </foreach>
+    </delete>
+
+    <!-- 根据院校ID删除关联 -->
+    <delete id="deleteTeacherCollegeByCollegeId">
+        DELETE FROM base_teacher_college WHERE college_id = #{collegeId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threeRduReform.base.mapper.BaseCollegeMapper">
+    
+    <resultMap type="com.threeRduReform.base.domain.BaseCollege" id="BaseCollegeResult">
+        <result property="collegeId"    column="college_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="collegeCode"    column="college_code"    />
+        <result property="collegeName"    column="college_name"    />
+        <result property="collegeShortName"    column="college_short_name"    />
+        <result property="collegeType"    column="college_type"    />
+        <result property="area"    column="area"    />
+        <result property="address"    column="address"    />
+        <result property="contact"    column="contact"    />
+        <result property="phone"    column="phone"    />
+        <result property="intro"    column="intro"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBaseCollegeVo">
+        select college_id, parent_id, ancestors, college_code, college_name, college_short_name, college_type, area, address, contact, phone, intro, order_num, status, del_flag, create_by, create_time, update_by, update_time, remark from base_college
+    </sql>
+
+    <select id="selectBaseCollegeList" parameterType="com.threeRduReform.base.domain.BaseCollege" resultMap="BaseCollegeResult">
+        <include refid="selectBaseCollegeVo"/>
+        <where>  
+            <if test="collegeCode != null  and collegeCode != ''"> and college_code = #{collegeCode}</if>
+            <if test="collegeName != null  and collegeName != ''"> and college_name like concat('%', #{collegeName}, '%')</if>
+            <if test="collegeType != null  and collegeType != ''"> and college_type = #{collegeType}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+        order by order_num
+    </select>
+    
+    <select id="selectBaseCollegeTreeList" parameterType="com.threeRduReform.base.domain.BaseCollege" resultMap="BaseCollegeResult">
+        <include refid="selectBaseCollegeVo"/>
+        <where>  
+            <if test="collegeCode != null  and collegeCode != ''"> and college_code = #{collegeCode}</if>
+            <if test="collegeName != null  and collegeName != ''"> and college_name like concat('%', #{collegeName}, '%')</if>
+            <if test="collegeType != null  and collegeType != ''"> and college_type = #{collegeType}</if>
+        </where>
+        order by order_num
+    </select>
+
+    <select id="selectBaseCollegeByCollegeId" parameterType="Long" resultMap="BaseCollegeResult">
+        <include refid="selectBaseCollegeVo"/>
+        where college_id = #{collegeId}
+    </select>
+
+    <insert id="insertBaseCollege" parameterType="com.threeRduReform.base.domain.BaseCollege">
+        insert into base_college
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="collegeId != null">college_id,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="ancestors != null">ancestors,</if>
+            <if test="collegeCode != null">college_code,</if>
+            <if test="collegeName != null">college_name,</if>
+            <if test="collegeShortName != null">college_short_name,</if>
+            <if test="collegeType != null">college_type,</if>
+            <if test="area != null">area,</if>
+            <if test="address != null">address,</if>
+            <if test="contact != null">contact,</if>
+            <if test="phone != null">phone,</if>
+            <if test="intro != null">intro,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="collegeId != null">#{collegeId},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="ancestors != null">#{ancestors},</if>
+            <if test="collegeCode != null">#{collegeCode},</if>
+            <if test="collegeName != null">#{collegeName},</if>
+            <if test="collegeShortName != null">#{collegeShortName},</if>
+            <if test="collegeType != null">#{collegeType},</if>
+            <if test="area != null">#{area},</if>
+            <if test="address != null">#{address},</if>
+            <if test="contact != null">#{contact},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="intro != null">#{intro},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseCollege" parameterType="com.threeRduReform.base.domain.BaseCollege">
+        update base_college
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="ancestors != null">ancestors = #{ancestors},</if>
+            <if test="collegeCode != null">college_code = #{collegeCode},</if>
+            <if test="collegeName != null">college_name = #{collegeName},</if>
+            <if test="collegeShortName != null">college_short_name = #{collegeShortName},</if>
+            <if test="collegeType != null">college_type = #{collegeType},</if>
+            <if test="area != null">area = #{area},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="contact != null">contact = #{contact},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="intro != null">intro = #{intro},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where college_id = #{collegeId}
+    </update>
+
+    <delete id="deleteBaseCollegeByCollegeId" parameterType="Long">
+        delete from base_college where college_id = #{collegeId}
+    </delete>
+
+    <delete id="deleteBaseCollegeByCollegeIds" parameterType="String">
+        delete from base_college where college_id in 
+        <foreach item="collegeId" collection="array" open="(" separator="," close=")">
+            #{collegeId}
+        </foreach>
+    </delete>
+</mapper>

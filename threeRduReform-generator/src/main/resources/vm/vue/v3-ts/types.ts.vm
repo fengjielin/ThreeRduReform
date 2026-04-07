@@ -1,0 +1,46 @@
+/** 查询参数 */
+export interface ${BusinessName}QueryParams {
+  /** 页码 */
+  pageNum?: number
+  /** 每页数量 */
+  pageSize?: number
+#foreach($column in $columns)
+#if($column.query)
+  /** $column.columnComment */
+  ${column.javaField}?:#if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal' || $column.javaType == 'Short' || $column.javaType == 'Byte') Number#else() ${column.javaType}#end#if($foreach.count != $columns.size()),#end
+#end
+#end
+#if($table.sub)
+  // 子表字段
+#end
+}
+
+/** 实体类 */
+export interface ${BusinessName} {
+  /** 主键 */
+  ${pkColumn.javaField}?:#if($pkColumn.javaType == 'Integer' || $pkColumn.javaType == 'Long' || $pkColumn.javaType == 'Double' || $pkColumn.javaType == 'Float' || $pkColumn.javaType == 'BigDecimal' || $pkColumn.javaType == 'Short' || $pkColumn.javaType == 'Byte') Number#else() ${pkColumn.javaType}#end
+#foreach($column in $columns)
+#if(!$column.pk && $column.insert)
+  /** $column.columnComment */
+  ${column.javaField}?:#if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal' || $column.javaType == 'Short' || $column.javaType == 'Byte') Number#else() ${column.javaType}#end#if($foreach.count != $columns.size()),#end
+#end
+#end
+#if($table.sub)
+  /** 子表列表 */
+  ${subclassName}List?: ${subClassName}[]
+#end
+}
+
+#if($table.sub)
+/** ${subTable.functionName} */
+export interface ${subClassName} {
+  /** 主键 */
+  ${subTable.pkColumn.javaField}?:#if($subTable.pkColumn.javaType == 'Integer' || $subTable.pkColumn.javaType == 'Long' || $subTable.pkColumn.javaType == 'Double' || $subTable.pkColumn.javaType == 'Float' || $subTable.pkColumn.javaType == 'BigDecimal' || $subTable.pkColumn.javaType == 'Short' || $subTable.pkColumn.javaType == 'Byte') number#else() ${subTable.pkColumn.javaType}#end
+#foreach($column in $subTable.columns)
+#if(!$column.pk && $column.javaField != $subTableFkclassName)
+  /** $column.columnComment */
+  ${column.javaField}?:#if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal' || $column.javaType == 'Short' || $column.javaType == 'Byte') number#else() ${column.javaType}#end#if($foreach.count != $subTable.columns.size()),#end
+#end
+#end
+}
+#end

@@ -1,0 +1,17 @@
+[
+  {
+    "name": "devServe",
+    "ip": "",
+    "active": 0
+  },
+  {
+    "name": "prodServe",
+    "ip": "http://8.163.10.85/prod-api/",
+    "active": 0
+  },
+  {
+    "name": "localServe",
+    "ip": "http://127.0.0.1:8080/",
+    "active": 1
+  }
+]
