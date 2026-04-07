@@ -104,6 +104,7 @@
     height: 100%;
     position: absolute;
     z-index: 10;
+    left: 0;
   }
 
   .fixed-header {

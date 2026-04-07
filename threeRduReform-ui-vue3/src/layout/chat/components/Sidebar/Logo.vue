@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-  // import logo from '@/assets/logo/logo.png';
+  import logo from '@/assets/logo/logo.png';
   import useSettingsStore from '@/store/modules/settings';
   import usePermissionStore from '@/store/modules/permission';
   import variables from '@/assets/styles/variables.module.scss';
@@ -32,9 +32,9 @@
   const sideTheme = computed(() => settingsStore.sideTheme);
 
   // 助手头像（豆包风格的头像）
-  const logo = ref(
-    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIwLjUiLz4KPHBhdGggZD0iTTE1IDE1TDIwIDI1TDI1IDE1IiBzdHJva2U9IiM1Y2Q4ZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik0xNSAyNUwyMCAzNUwyNSAyNSIgc3Ryb2tlPSIjOGY2ZTg1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=',
-  );
+  // const logo = ref(
+  //   'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIwLjUiLz4KPHBhdGggZD0iTTE1IDE1TDIwIDI1TDI1IDE1IiBzdHJva2U9IiM1Y2Q4ZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik0xNSAyNUwyMCAzNUwyNSAyNSIgc3Ryb2tlPSIjOGY2ZTg1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=',
+  // );
 
   const getPath = computed(() => {
     return '/chat/sports';
@@ -78,6 +78,7 @@
         height: 32px;
         vertical-align: middle;
         margin-right: 12px;
+        border-radius: 4px;
       }
 
       & .sidebar-title {

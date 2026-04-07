@@ -28,6 +28,7 @@
   import useChatStore from '@/store/modules/chat';
   import useUserStore from '@/store/modules/user';
   import useSystemStore from '@/store/modules/system';
+
   const { proxy } = getCurrentInstance();
 
   const appStore = useAppStore();
@@ -42,6 +43,10 @@
   const isAdmin = computed(() => userStore.isAdmin);
   const isTeacher = computed(() => userStore.isTeacher);
   const isStudent = computed(() => userStore.isStudent);
+
+  const permissionList = ref([]);
+  const loading = ref(true);
+  const loadingFaq = ref(true);
 
   // 默认头像占位图
   const DEFAULT_AVATAR = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png';
@@ -80,8 +85,8 @@
       .then(() => {
         userStore.logOut().then(() => {
           if (!systemStore.casEnable) {
-            const BASE_URL = import.meta.env.BASE_URL;
-            location.href = `${BASE_URL}/login`;
+            let publicPath = 'assistantPage';
+            location.href = '/' + publicPath + '/login';
           } else {
             window.location.href = systemStore.casLogoutUrl;
           }

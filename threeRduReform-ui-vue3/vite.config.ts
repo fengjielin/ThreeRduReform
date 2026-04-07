@@ -10,7 +10,7 @@ const backendUrl = 'http://localhost:8080'; // 后端接口
 const config: UserConfigFn = ({ mode, command }) => {
   const env = loadEnv(mode, process.cwd());
   const { VITE_APP_ENV, VITE_PORT: port, VITE_BASE_URL: baseUrl } = env;
-  const publicPath = `/${baseUrl}` || '/toolsPage'; // 公共路径
+  const publicPath = `/${baseUrl}` || '/threeRduReformPage'; // 公共路径
   return {
     // 部署生产环境和开发环境下的URL。
     // 默认情况下，vite 会假设你的应用是被部署在一个域名的根路径上
