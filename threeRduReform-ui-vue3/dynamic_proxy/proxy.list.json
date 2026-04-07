@@ -7,7 +7,7 @@
   {
     "name": "prodServe",
     "ip": "http://8.163.10.85/prod-api/",
-    "active": 0
+    "active": 1
   },
   {
     "name": "localServe",

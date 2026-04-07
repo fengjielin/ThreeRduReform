@@ -14,7 +14,7 @@ import useSystemStore from '@/store/modules/system';
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login', '/register', '/chat', '/sports', '/chat/sports'];
+const whiteList = ['/login', '/register', '/chat', '/sports', '/chat/sports', '/forward', '/forward/index'];
 
 const isWhiteList = (path) => {
   return whiteList.some((pattern) => isPathMatch(pattern, path));

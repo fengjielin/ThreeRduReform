@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from 'vue-router';
 /* Layout */
 import Layout from '@/layout/main/index.vue';
 import LayoutChat from '@/layout/chat/index.vue';
+import LayoutForward from '@/layout/forward/index.vue';
 
 /**
  * Note: 路由配置项
@@ -70,6 +71,21 @@ export const constantRoutes = [
         component: () => import('@/views/chat/index.vue'),
         name: 'Sports',
         meta: { title: '智慧体育小助手', requireAuth: 'noAuth' },
+      },
+    ],
+  },
+
+  {
+    path: '/forward',
+    component: LayoutForward,
+    redirect: { name: 'Forward' },
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/forward/index.vue'),
+        name: 'Forward',
+        meta: { title: '三教融合改革平台', requireAuth: 'noAuth' },
       },
     ],
   },
